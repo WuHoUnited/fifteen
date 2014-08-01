@@ -1,0 +1,31 @@
+div.square{
+  height: 50px;
+  width: 50px;
+  display: block;
+  position: absolute;
+  text-align: center;
+  line-height: 50px;
+  border: 1px solid black;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+.odd{
+  background-color: red;
+  color: white;
+}
+
+.even{
+  background-color: white;
+  color: red;
+}
+
+.game{
+  margin: 3em;
+  position: relative;
+}
+
+.board{
+  height: 220px;
+}
