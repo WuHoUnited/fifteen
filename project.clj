@@ -12,18 +12,17 @@
   :source-paths ["src"]
 
   :cljsbuild {
-              :builds [{:id "fifteen"
+              :builds [{:id "prod"
                         :source-paths ["src"]
                         :compiler {
-                                   :output-to "fifteen.js"
-                                   :output-dir "out"
-                                   :optimizations :none
-                                   :source-map true}}
-                       {:id "prod"
-                        :source-paths ["src"]
-                        :compiler {
-                                   :output-to "fifteen-prod.js"
-                                   :output-dir "out-prod"
+                                   :output-to "public/prod/fifteen.js"
                                    :optimizations :advanced
                                    :preamble ["react/react.min.js"]
-                                   :externs ["react/externs/react.js"]}}]})
+                                   :externs ["react/externs/react.js"]}}
+                       {:id "fifteen"
+                        :source-paths ["src"]
+                        :compiler {
+                                   :output-to "public/dev/fifteen.js"
+                                   :output-dir "out"
+                                   :optimizations :none
+                                   :source-map true}}]})
