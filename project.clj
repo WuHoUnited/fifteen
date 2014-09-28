@@ -1,6 +1,6 @@
 (defproject fifteen "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
-  :url "http://example.com/FIXME"
+  :description "Play the Fifteen Puzzle in a web browser."
+  :url "https://github.com/WuHoUnited/fifteen"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2268"]

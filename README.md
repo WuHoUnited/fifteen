@@ -4,7 +4,8 @@ fifteen
 #Fifteen Puzzle in ClojureScript
 
 
-ThisThis project is an implementation of the famous "Fifteen puzzle" in `ClojureScript` which can be played in a web browser.
+ThisThis project is an implementation of the famous "Fifteen puzzle" in `ClojureScript`
+and `Om` which can be played in a web browser.
 
 The fifteen puzzle is a puzzle which is played with fifteen pieces on a 4x4 grid.
 The pieces are shuffled and then the goal of the puzzle is to put the pieces back into place as pictured below.

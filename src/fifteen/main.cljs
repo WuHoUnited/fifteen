@@ -1,34 +1,57 @@
 (ns fifteen.main
+  "Entry point for the fifteen puzzle for code running in a web browser."
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [fifteen.core :as f]))
 
 (enable-console-print!)
 
-(def app-state (atom {:game (f/make-game)}))
+(def app-state "Holds the entire state of the fifteen puzzle."
+  (atom {:game (f/make-game)}))
 
-(def key-map {\a f/move-left
-              \e f/move-right
-              \, f/move-up
-              \o f/move-down
-              \r f/randomize
-              \h f/move-left
-              \n f/move-right
-              \c f/move-up
-              \t f/move-down})
+;; Map keyboard inputs
 
-(defn key-to-action [key]
+(def key-map
+  "Map input characters to commands"
+  {\a f/move-left
+   \e f/move-right
+   \, f/move-up
+   \o f/move-down
+   \r f/randomize
+   \h f/move-left
+   \n f/move-right
+   \c f/move-up
+   \t f/move-down})
+
+(defn key-to-action
+  "Convert a key to an action"
+  [key]
   (get key-map
        key
        identity))
 
-(defn num-to-diagonal [num cols]
+(defn handle-keypress [event]
+  (swap! app-state
+         #(update-in % [:game] (key-to-action (char (.-charCode event))))))
+
+(defn num-to-diagonal
+  "Returns 0 or 1 indicating which \"diagonal\"/\"color\"
+  the number belongs to. This is used to determine the color.
+  Note that it is not simple odd/even."
+  [num cols]
   (let [num (dec num)]
     (mod (+ (mod num 2)
             (mod (quot num cols) 2))
          2)))
 
-(defn square-view [{{{:keys [cols]} :config :as game} :game
+;; Begin Om Views.
+;; Note: This was written before I knew how to use Om cursors
+;; so although Om CAN be used this way it is NOT how Om is intended to be used.
+
+(defn square-view
+  "Generates the single square at location within the board.
+  Listener is the mouse-over listener."
+  [{{{:keys [cols]} :config :as game} :game
                     [row col :as location] :location
                     listener :listener}]
   (let [num (f/get-number game location)
@@ -43,14 +66,18 @@
                   :onMouseOver listener}
              num)))
 
-(defn randomize-view [game]
+(defn randomize-view
+  "Generate the element for randomizing the puzzle."
+  [game]
   (dom/button
    #js {:onClick (fn [_]
                    (swap! app-state
                           #(update-in % [:game] f/randomize)))}
    "Random"))
 
-(defn board-view [{{:keys [rows cols]} :config :as game}]
+(defn board-view
+  "View for the entire Puzzle."
+  [{{:keys [rows cols]} :config :as game}]
   (let [blank-location (f/find-blank game)
         listeners {(update-in blank-location [1] dec) (fn [e] (swap! app-state
                                                                      #(update-in % [:game] f/move-right)))
@@ -69,19 +96,21 @@
                   col (range cols)]
               [row col])))))
 
-(defn game-view [game]
+(defn game-view
+  "View for the puzzle and randomization"
+  [game]
   (dom/div #js {:className "game"}
            (board-view game)
            (randomize-view game)))
 
+;; Begin handling the DOM
+
+;;Render to the DOM
 (om/root
  (fn [app owner]
    (game-view (:game @app-state)))
  app-state
  {:target (. js/document (getElementById "app"))})
 
-(defn handle-keypress [event]
-  (swap! app-state
-         #(update-in % [:game] (key-to-action (char (.-charCode event))))))
-
+;;Add the global event listeners.
 (.addEventListener js/document "keypress" handle-keypress)
