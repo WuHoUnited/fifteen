@@ -8,3 +8,5 @@ pom.xml
 .lein-repl-history
 .lein-plugins/
 .nrepl-port
+public/prod/fifteen.js
+public/dev/fifteen.js

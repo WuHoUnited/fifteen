@@ -18,7 +18,11 @@ The pieces are shuffled and then the goal of the puzzle is to put the pieces bac
 
 #Quick Start
 
-To immediately begin playing, just open up the `public/prod/index.html` file in a web-browser.
+To begin playing
+
+1) Run `lein cljsbuild once` to build the project
+
+2) open up the `public/prod/index.html` in a web browser
 
 The game is controlled by a mouse. When you move the mouse over a square touching the empty square
 it will be swapped with the empty square.
